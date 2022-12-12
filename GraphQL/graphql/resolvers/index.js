@@ -1,6 +1,7 @@
 const bookResolver = require("./book.query");
 const authorResolver = require("./author.query");
 const authResolver = require("./auth.mutation");
+const bookResolverMuta = require("./book.mutation");
 
 const db = require("../../models/index");
 const Author = db.author;
@@ -23,5 +24,6 @@ module.exports = {
   },
   Mutation: {
     ...authResolver.Mutation,
+    ...bookResolverMuta.Mutation,
   },
 };

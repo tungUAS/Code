@@ -12,11 +12,11 @@ const server = new ApolloServer({
 });
 
 mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+  .connect(`${dbConfig.URL_MONGODB_ATLAS}`, {
     useNewUrlParser: true,
   })
   .then(() => {
-    console.log("MongoDB connected");
+    console.log("MongoDB connected 444");
     return server.listen({ port: 5000 });
   })
   .then((res)=>{

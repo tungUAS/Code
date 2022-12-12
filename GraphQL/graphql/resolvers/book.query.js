@@ -15,6 +15,6 @@ module.exports = {
     bookByStock: async (parent,args,context) => {
       checkAuth(context);
       return Book.find({stock:args.stock});
-    },
-  },
+    }
+  }
 };

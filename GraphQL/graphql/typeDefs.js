@@ -49,10 +49,29 @@ const typeDefs = gql`
     author(name: String!): Author
   }
 
+  input authorInput {
+    id: ID
+    name: String
+    yob: Int
+  }
+
+  input BulkCreateBookInput {
+    title: String
+    year_written: Int
+    edition: String
+    price: Float
+    quantity: Int
+    stock: String
+    ISBN: String
+    code: String
+    author: authorInput
+  }
+
   type Mutation {
     createAuthor(name: String!,yob: Int!): Author
     register(registerInput: RegisterInput): User!
     signin(signinInput: SigninInput): User!
+    bulkCreateBook(books: [BulkCreateBookInput]): [Book]
   }
 `;
 module.exports = typeDefs;
