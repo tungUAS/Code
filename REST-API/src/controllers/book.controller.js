@@ -75,3 +75,27 @@ exports.suggestBooksByStock = async (req, res) => {
     return res.status(500).end();
   }
 };
+
+exports.bulkCreateBook = async (req, res, next) => {
+  try {
+    const books = req.body.books;
+
+    if (books?.length > 0) {
+      let resData = await Book.insertMany(books);
+
+      return res.status(200).send({
+        message: "Thành công",
+        status: true,
+        data: resData,
+      });
+    }
+
+    return res.status(200).send({
+      message: "Thất Bại",
+      status: false,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).end();
+  }
+};

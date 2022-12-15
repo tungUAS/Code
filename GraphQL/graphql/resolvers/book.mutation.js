@@ -9,6 +9,7 @@ module.exports = {
 
         return res;
       } catch(err) {
+        console.log('err', err)
         throw new Error(err);
       }
     },

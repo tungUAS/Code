@@ -50,7 +50,6 @@ const typeDefs = gql`
   }
 
   input authorInput {
-    id: ID
     name: String
     yob: Int
   }
@@ -64,7 +63,7 @@ const typeDefs = gql`
     stock: String
     ISBN: String
     code: String
-    author: authorInput
+    author: String
   }
 
   type Mutation {

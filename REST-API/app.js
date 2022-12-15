@@ -12,7 +12,7 @@ const bookRouter = require("./src/routes/book.route");
 var app = express();
 
 db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`)
+  .connect(`${dbConfig.URL_MONGODB_ATLAS}`)
   .then(() => {
     console.log("Successfully connect to MongoDB.");
   })
