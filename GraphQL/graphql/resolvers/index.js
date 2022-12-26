@@ -2,9 +2,9 @@ const bookResolver = require("./book.query");
 const authorResolver = require("./author.query");
 const authResolver = require("./auth.mutation");
 const bookResolverMuta = require("./book.mutation");
+const orderResolverMuta = require("./order.mutation");
 
 const db = require("../../models/index");
-const Author = db.author;
 const Book = db.book;
 
 module.exports = {
@@ -13,8 +13,8 @@ module.exports = {
     ...authorResolver.Query,
   },
   Book: {
-    author: async (parent, args) => {
-      return await Author.findOne({ name: parent.author });
+    author: async (parent, args, context) => {
+      return await context.authorLoader.load(parent.author);
     },
   },
   Author: {
@@ -25,5 +25,6 @@ module.exports = {
   Mutation: {
     ...authResolver.Mutation,
     ...bookResolverMuta.Mutation,
+    ...orderResolverMuta.Mutation,
   },
 };

@@ -1,14 +1,31 @@
 const { ApolloServer } = require("apollo-server");
 const mongoose = require("mongoose");
 const dbConfig = require('./config/db.config');
+const DataLoader = require('dataloader');
 
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
+const db = require("./models/index");
+const Author = db.author;
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({req}) => ({req})
+  context: ({req}) => {
+    return {
+      authorLoader: new DataLoader(async keys => {
+        const authors = await Author.find({});
+
+        const authorMap = {};
+
+        authors.forEach(author => {
+          authorMap[author.name] = author;
+        });
+
+        return keys.map(key => authorMap[key]);
+      })
+    }
+  }
 });
 
 mongoose

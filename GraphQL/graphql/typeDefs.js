@@ -29,6 +29,34 @@ const typeDefs = gql`
     token: String
   }
 
+  input Shipping {
+    name: String
+  }
+
+  input Payment {
+    name: String
+  }
+
+  input bookInput {
+    id: ID
+    title: String
+    year_written: Int
+    edition: String
+    price: Float
+    quantity: Int
+    stock: String
+    ISBN: String
+    code: String
+  }
+
+  input OrderInput {
+    userId: Int
+    orderId: Int
+    shipping: Shipping
+    payment: Payment
+    books: [bookInput]
+  }
+
   input RegisterInput {
     username: String
     email: String
@@ -71,6 +99,7 @@ const typeDefs = gql`
     register(registerInput: RegisterInput): User!
     signin(signinInput: SigninInput): User!
     bulkCreateBook(books: [BulkCreateBookInput]): [Book]
+    bulkCreateOrder(orders: [OrderInput]): Boolean
   }
 `;
 module.exports = typeDefs;
