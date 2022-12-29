@@ -41,3 +41,34 @@ exports.signin = async (req, res) => {
     res.status(500).send("Sign in failed");
   }
 };
+
+exports.updateProfile = async (req, res, next) => {
+  try {
+    const {email, username, userId} = req.body;
+    const imgBase64 = req?.file?.buffer?.toString("base64");
+
+    /**
+     * Lưu data:image/jpg;base64,
+     */
+    let response = await User.updateOne({
+      _id: userId,
+    }, {
+      email: email,
+      username: username,
+      image: imgBase64,
+    }, {
+      upsert: true,
+    })
+
+    let resUser = await User.find({
+      _id: userId
+    })
+
+    res.status(200).json({
+      data: resUser
+    })
+  } catch (error) {
+    console.log('error', error)
+    res.status(500).send("updateProfile failed");
+  }
+};

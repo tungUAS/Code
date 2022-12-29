@@ -1,6 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
+  scalar Upload
   type Book {
     id: ID
     title: String
@@ -62,6 +63,7 @@ const typeDefs = gql`
     email: String
     password: String
     roles: String
+    images: String
   }
 
   input SigninInput {
@@ -94,12 +96,27 @@ const typeDefs = gql`
     author: String
   }
 
+  type File {
+    fileName: String
+    mimeType: String
+    encoding: String
+  }
+
+  input updateProfileInput {
+    username: String
+    email: String
+    images: String
+    userId: String
+  }
+
   type Mutation {
     createAuthor(name: String!,yob: Int!): Author
     register(registerInput: RegisterInput): User!
     signin(signinInput: SigninInput): User!
     bulkCreateBook(books: [BulkCreateBookInput]): [Book]
     bulkCreateOrder(orders: [OrderInput]): Boolean
+    uploadImage(file: Upload!): String!
+    updateProfile(user: updateProfileInput): Boolean
   }
 `;
 module.exports = typeDefs;

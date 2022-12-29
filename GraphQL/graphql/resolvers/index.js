@@ -3,11 +3,13 @@ const authorResolver = require("./author.query");
 const authResolver = require("./auth.mutation");
 const bookResolverMuta = require("./book.mutation");
 const orderResolverMuta = require("./order.mutation");
+const { GraphQLUpload } = require('graphql-upload');
 
 const db = require("../../models/index");
 const Book = db.book;
 
 module.exports = {
+  Upload: GraphQLUpload,
   Query: {
     ...bookResolver.Query,
     ...authorResolver.Query,
