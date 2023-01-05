@@ -3,22 +3,16 @@ var router = express.Router();
 const authJWT = require("../middleware/authJWT");
 const bookController = require("../controllers/book.controller");
 
-router.get("/", authJWT.verifyToken, bookController.findAll);
+router.get("/", bookController.findAll);
 
-router.get("/:book", authJWT.verifyToken, bookController.findBook);
+router.get("/authorDetails", bookController.findBookWithAuthorDetails);
 
-router.get(
-  "/suggest/author/:book",
-  authJWT.verifyToken,
-  bookController.suggestBooksByAuthor
-);
+router.get("/:book", bookController.findBook);
 
-router.get(
-  "/suggest/stock/:book",
-  authJWT.verifyToken,
-  bookController.suggestBooksByStock
-);
+router.get("/suggest/author/:book", bookController.suggestBooksByAuthor);
 
-router.post("/bulkCreate", bookController.bulkCreateBook);
+router.get("/suggest/stock/:book", bookController.suggestBooksByStock);
+
+router.post("/bulkCreate", authJWT.verifyTokenAdmin, bookController.bulkCreateBook);
 
 module.exports = router;

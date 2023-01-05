@@ -1,0 +1,50 @@
+/api/v1/books/:id
+localhost:3000/api/v1/books/6377e8851db82a9517af910d
+
+/api/v1/authors/:id
+localhost:3000/api/v1/authors/637d13c6fdb3830a9d72788f
+
+/api/v1/books/byAuthor/:id
+localhost:3000/api/v1/books/byAuthor/637d13c6fdb3830a9d72788f
+
+
+/api/v1/booksAndAuthors/?bookId&authorId
+localhost:3000/api/v1/booksAndAuthors
+/?bookId=6377e8851db82a9517af910e&authorId=637d13edfdb3830a9d727897
+
+
+/api/v1/books/:id
+localhost:3000/api/v1/books/6377e8851db82a9517af910e
+
+/api/v1/authors/:id
+localhost:3000/api/v1/authors/637d13edfdb3830a9d727897
+
+
+type BookForLandingPage {      type BookForSuggestions {        type BookAllDetails {
+    title:String                    title:String                     title:String  
+    author:String                   author:String                    author:String
+    year_written:Int            }                                    year_written:Int
+    price:Float                                                      edition:String
+}                                                                    price:Float
+                                                                     quantity:Number,
+                                                                     stock:String,
+                                                                     ISBN:String,
+                                                                     code:String
+                                                                }
+
+type BookForSuggestions {
+    title:String
+    author:String
+}
+
+type BookForDetails {
+    title:String,
+    author:String,
+    year_written:Int,
+    edition:String,
+    price:Float,
+    quantity:Number,
+    stock:String,
+    ISBN:String,
+    code:String
+}

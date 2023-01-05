@@ -71,14 +71,6 @@ const typeDefs = gql`
     password: String
   }
 
-  type Query {
-    books: [Book]
-    book(title: String!): Book
-    bookByStock(stock: String!): [Book]
-    authors: [Author]
-    author(name: String!): Author
-  }
-
   input authorInput {
     name: String
     yob: Int
@@ -107,6 +99,14 @@ const typeDefs = gql`
     email: String
     images: String
     userId: String
+  }
+
+  type Query {
+    books: [Book]
+    book(id: ID,title:String,code:String,ISBN:String): Book
+    bookByStock(stock: String!): [Book]
+    authors: [Author]
+    author(id: ID!): Author
   }
 
   type Mutation {

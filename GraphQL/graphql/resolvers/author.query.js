@@ -5,12 +5,12 @@ const checkAuth = require("../../middleware/auth.middleware");
 module.exports = {
     Query: {
       authors: async (parent,args,context) => {
-        checkAuth(context);
+        //checkAuth(context);
         return await Author.find();
       },
       author: async (parent, args,context) => {
-        checkAuth(context);
-        return Author.findOne({ name: args.name });
+        //checkAuth(context);
+        return Author.findById(args.id);
       }
     }
 };

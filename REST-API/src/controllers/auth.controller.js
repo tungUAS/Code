@@ -36,9 +36,9 @@ exports.signin = async (req, res) => {
     });
     res
       .status(200)
-      .send({ username: user.username, email: user.email, token: token });
+      .send({ username: user.username, email: user.email, token: token }).end();
   } catch (error) {
-    res.status(500).send("Sign in failed");
+    res.status(500).send("Sign in failed").end();
   }
 };
 

@@ -28,8 +28,9 @@ async function startServer() {
 
           return keys.map((key) => authorMap[key]);
         }),
+        req
       };
-    },
+    }
   });
 
   await server.start();
@@ -38,8 +39,8 @@ async function startServer() {
   app.use(graphqlUploadExpress());
   server.applyMiddleware({ app });
 
-  mongoose
-    .connect(`${dbConfig.URL_MONGODB_ATLAS}`, {
+/*   mongoose
+    .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
       useNewUrlParser: true,
     })
     .then(() => {
@@ -48,7 +49,19 @@ async function startServer() {
     })
     .then((res) => {
       console.log("server running at port 5000...");
-    });
+    }); */
+
+    mongoose
+  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+    useNewUrlParser: true,
+  })
+  .then(() => {
+    console.log("MongoDB connected");
+    return app.listen({ port: 5000 });
+  })
+  .then((res)=>{
+    console.log("server running at port 5000...")
+  })
 }
 
 startServer();

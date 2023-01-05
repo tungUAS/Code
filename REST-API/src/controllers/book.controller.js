@@ -6,7 +6,12 @@ exports.findAll = async (req, res) => {
   const limit = req.query.limit;
   const skip = page * limit - limit;
   try {
-    const books = await Book.find().skip(skip).limit(limit);
+    let books;
+    if(page && limit){
+      books = await Book.find().skip(skip).limit(limit);
+    }else{
+      books = await Book.find();
+    }
     return res.status(200).send(books);
   } catch (error) {
     console.log(error);
@@ -18,9 +23,13 @@ exports.findBook = async (req, res) => {
   const toSearchBook = req.params.book;
   console.log(toSearchBook);
   try {
+    const searchById = await Book.findById(toSearchBook);
+    if (searchById) {
+      return res.status(200).send(searchById);
+    }
+
     const searchByCode = await Book.findOne({ code: toSearchBook });
     if (searchByCode) {
-      console.log("here ", searchByCode);
       return res.status(200).send(searchByCode);
     }
 
@@ -36,9 +45,43 @@ exports.findBook = async (req, res) => {
 
     return res.status(404).end();
   } catch (error) {
-    return res.status(500).end();
+    console.log(error);
+    return res.status(500).send(error).end();
   }
 };
+
+exports.findBookWithAuthorDetails = async (req,res) => {
+  try{
+    const books = await Book.aggregate([
+      {
+        "$lookup":{
+          "from":"authors",
+          "localField":"author",
+          "foreignField":"name",
+          "as":"authorName"
+        }
+      },
+      {
+        $project:{
+          _id:1,
+          title:1,
+          authorName:1,
+          year_written:1,
+          edition:1,
+          price:1,
+          quantity:1,
+          stock:1,
+          ISBN:1,
+          code:1
+        }
+      }
+    ]);
+    return res.status(200).send(books).end();
+  }catch(error){
+    console.log(error);
+    return res.status(500).send(error).end();
+  }
+}
 
 exports.suggestBooksByAuthor = async (req, res) => {
   const title = req.params.book;

@@ -12,7 +12,7 @@ const orderRouter = require('./src/routes/order.route');
 
 var app = express();
 
-db.mongoose
+/* db.mongoose
   .connect(`${dbConfig.URL_MONGODB_ATLAS}`)
   .then(() => {
     console.log("Successfully connect to MongoDB.");
@@ -20,8 +20,17 @@ db.mongoose
   .catch((err) => {
     console.error("Connection error", err);
     process.exit();
+  }); */
+
+  db.mongoose
+  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`)
+  .then(() => {
+    console.log("Successfully connect to MongoDB.");
+  })
+  .catch((err) => {
+    console.error("Connection error", err);
+    process.exit();
   });
-  
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
