@@ -10,6 +10,8 @@ db.role = require("./role.model");
 db.book = require("./book.model");
 db.author = require("./author.model");
 db.order = require("./order.model");
+db.books20000 = require("./book20k.model");
+db.books20000post = require("./book20kpost.model");
 
 db.ROLES = ["user", "admin"];
 

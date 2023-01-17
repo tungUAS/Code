@@ -11,11 +11,17 @@ const express = require("express");
 const db = require("./models/index");
 const Author = db.author;
 
+const costAnalysis = require( 'graphql-cost-analysis');
+
+const costAnalyzer = costAnalysis.default({
+  maximumCost: 1000
+});
+
 async function startServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => {
+    context: ({ req,res }) => {
       return {
         authorLoader: new DataLoader(async (keys) => {
           const authors = await Author.find({});
@@ -28,7 +34,7 @@ async function startServer() {
 
           return keys.map((key) => authorMap[key]);
         }),
-        req
+        req,res
       };
     }
   });
@@ -51,7 +57,7 @@ async function startServer() {
       console.log("server running at port 5000...");
     }); */
 
-    mongoose
+  mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
     useNewUrlParser: true,
   })

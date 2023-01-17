@@ -10,11 +10,11 @@ const obj = {
     "stock": "A"
     }
 const data = [];
-for(let i=0;i<20000;i++){        
+for(let i=0;i<1000;i++){        
     data.push(obj);
 }
 
-fs.writeFile('20000books.json', JSON.stringify(data),function(err){
+fs.writeFile('1000books.json', JSON.stringify(data),function(err){
     if (err) throw err;
     console.log('complete');
 });
