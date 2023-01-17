@@ -1,5 +1,6 @@
 const db = require("../../models/index");
 const Book = db.book;
+const book20kpost = db.books20000post;
 const {verifyTokenAdmin} = require("../../middleware/auth.middleware");
 
 module.exports = {
@@ -7,7 +8,7 @@ module.exports = {
     bulkCreateBook: async (parent, args, context) => {
       verifyTokenAdmin(context);
       try {
-        let res = await Book.insertMany(args.books);
+        let res = await book20kpost.insertMany(args.books);
 
         return res;
       } catch(err) {

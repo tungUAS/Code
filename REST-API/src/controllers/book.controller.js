@@ -1,18 +1,21 @@
+const { hash } = require("bcryptjs");
 const db = require("../models");
 const Book = db.book;
+const books20000 = db.books20000;
+const books20000post = db.books20000post;
+const crypto = require("crypto");
+const { Http2ServerRequest } = require("http2");
 
 exports.findAll = async (req, res) => {
-  const page = req.query.page;
-  const limit = req.query.limit;
-  const skip = page * limit - limit;
+  const etag = req.headers["If-None-Match"];
   try {
-    let books;
-    if(page && limit){
-      books = await Book.find().skip(skip).limit(limit);
-    }else{
-      books = await Book.find();
+    const books = await books20000.find();
+    let etagBooks = JSON.stringify(books);
+    etagBooks = crypto.createHash("sha1").update(etagBooks).digest("base64");
+    if(etag === etagBooks){
+      return res.status(304).end();
     }
-    return res.status(200).send(books);
+    return res.header("ETag",etagBooks).status(200).send(books);
   } catch (error) {
     console.log(error);
     res.status(500).end();
@@ -52,7 +55,7 @@ exports.findBook = async (req, res) => {
 
 exports.findBookWithAuthorDetails = async (req,res) => {
   try{
-    const books = await Book.aggregate([
+    const books = await books20000.aggregate([
       {
         "$lookup":{
           "from":"authors",
@@ -121,20 +124,21 @@ exports.suggestBooksByStock = async (req, res) => {
 
 exports.bulkCreateBook = async (req, res, next) => {
   try {
-    const books = req.body.books;
+    console.log("Hehe")
+    const books = req.body;
+    console.log(books);
 
     if (books?.length > 0) {
-      let resData = await Book.insertMany(books);
+      let resData = await books20000post.insertMany(books);
 
       return res.status(200).send({
-        message: "Thành công",
-        status: true,
-        data: resData,
+        message: "Successfully inserted 20k books",
+        status: true
       });
     }
 
     return res.status(200).send({
-      message: "Thất Bại",
+      message: "Failed",
       status: false,
     });
   } catch (err) {
@@ -142,3 +146,4 @@ exports.bulkCreateBook = async (req, res, next) => {
     return res.status(500).end();
   }
 };
+

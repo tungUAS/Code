@@ -23,11 +23,14 @@ var app = express();
   }); */
 
   db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`)
+  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => {
     console.log("Successfully connect to MongoDB.");
   })
-  .catch((err) => {
+  .catch(err => {
     console.error("Connection error", err);
     process.exit();
   });
@@ -43,6 +46,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/books", bookRouter);
+app.use("/api/v1/authors", authorRouter);
 app.use("/api/v1/orders", orderRouter);
 
 // catch 404 and forward to error handler

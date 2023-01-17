@@ -7,6 +7,7 @@ const { GraphQLUpload } = require('graphql-upload');
 
 const db = require("../../models/index");
 const Book = db.book;
+const Author = db.author;
 
 module.exports = {
   Upload: GraphQLUpload,

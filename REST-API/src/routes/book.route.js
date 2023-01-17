@@ -13,6 +13,8 @@ router.get("/suggest/author/:book", bookController.suggestBooksByAuthor);
 
 router.get("/suggest/stock/:book", bookController.suggestBooksByStock);
 
-router.post("/bulkCreate", authJWT.verifyTokenAdmin, bookController.bulkCreateBook);
+router.post("/bulkCreate",authJWT.verifyTokenAdmin, bookController.bulkCreateBook);
 
 module.exports = router;
+
+
