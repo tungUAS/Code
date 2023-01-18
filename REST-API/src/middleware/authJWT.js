@@ -3,18 +3,20 @@ const config = require("../../config/auth.config");
 const db = require("../models");
 const User = db.user;
 
-exports.verifyTokenUser = (req,res,next) => {
+exports.verifyTokenUser = async (req,res,next) => {
     const token = req.headers["x-access-token"];
 
     if(!token) return res.status(403).send({msg:"No token found!"});
 
-    jwt.verify(token,config.secret,(error,token_decoded)=>{
+    jwt.verify(token,config.secret,async (error,token_decoded)=>{
         if(error){
             return res.status(401).send({
                 msg:"Unauthorized"
             })
         }
-        const user = User.findOne({username:token_decoded.username});
+        console.log(token_decoded.username)
+        const user = await User.findOne({username:token_decoded.username});
+        console.log(user.roles)
         if(user.roles !== "user"){
             return res.status(401).send({
                 msg:"Unauthorized"
@@ -25,19 +27,19 @@ exports.verifyTokenUser = (req,res,next) => {
     });
 }
 
-exports.verifyTokenAdmin = (req,res,next) => {
+exports.verifyTokenAdmin = async (req,res,next) => {
     const token = req.headers["x-access-token"];
 
     if(!token) return res.status(403).send({msg:"No token found!"});
 
-    jwt.verify(token,config.secret,(error,token_decoded)=>{
+    jwt.verify(token,config.secret,async (error,token_decoded)=>{
         if(error){
             console.log(error);
             return res.status(401).send({
                 msg:"Unauthorized"
             })
         }
-        const user = User.findOne({username:token_decoded.username});
+        const user = await User.findOne({username:token_decoded.username});
         if(user.roles !== "admin"){
             return res.status(401).send({
                 msg:"Unauthorized"

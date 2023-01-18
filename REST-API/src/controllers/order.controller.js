@@ -4,19 +4,20 @@ const Order = db.orders;
 exports.bulkCreateOrder = async (req, res) => {
   try {
     const orders = req.body.orders;
+    console.log(orders)
 
     if (orders?.length > 0) {
       let resData = await Order.insertMany(orders);
 
       return res.status(200).send({
-        message: "Thành công",
+        message: "Successfully",
         status: true,
         data: resData,
       });
     }
 
     return res.status(200).send({
-      message: "Thất Bại",
+      message: "Failed",
       status: false,
     });
 

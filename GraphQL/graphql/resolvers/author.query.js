@@ -8,7 +8,7 @@ module.exports = {
         return await Author.find();
       },
       author: async (parent, args,context) => {
-        return Author.findById(args.id);
+        return await Author.findById(args.id);
       }
     }
 };
